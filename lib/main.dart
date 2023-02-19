@@ -22,8 +22,8 @@ class MyApp extends StatelessWidget {
         splashScreen:(context) => SplashScreen(),
         welcomeScreen:(context) => WelcomeScreen(),
         loginPageWithEmailScreen: (context) => LoginScreen(),
-        loginWithCodeScreen: (context) => const LoginWithCodeScreen(),
-        registerFamilyScreen : (context) =>  const RegisterFamilyScreen(),
+        loginWithCodeScreen: (context) => LoginWithCodeScreen(),
+        registerFamilyScreen : (context) =>  RegisterFamilyScreen(),
         registerProfileScreen : (context) => const RegisterProfileScreen(),
       },
     );

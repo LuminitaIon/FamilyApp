@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 
 import '../../colors.dart';
 import '../../route_name.dart';
+import '../../widgets/text_field.dart';
 
 class RegisterFamilyScreen extends StatelessWidget {
-  const RegisterFamilyScreen({super.key});
+  final TextEditingController familyNameController = TextEditingController();
+  final TextEditingController emailRegisterController = TextEditingController();
+  final TextEditingController passwordRegisterController = TextEditingController();
+  final TextEditingController confirmPasswordRegisterController = TextEditingController();
+  RegisterFamilyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,32 +24,30 @@ class RegisterFamilyScreen extends StatelessWidget {
         ),
         backgroundColor: white,
         automaticallyImplyLeading: false,
-        title: Container(
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Center(
-                child: IconButton(
-                  iconSize: 40,
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  icon: const Icon(
-                    Icons.arrow_circle_left_outlined,
-                    color: primaryColor,
-                  ),
+        title: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Center(
+              child: IconButton(
+                iconSize: 40,
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                icon: const Icon(
+                  Icons.arrow_circle_left_outlined,
+                  color: primaryColor,
                 ),
               ),
-              const SizedBox(width: 10),
-              const Expanded(
-                child: Text(
-                  'Create your family group',
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                ),
+            ),
+            const SizedBox(width: 10),
+            const Expanded(
+              child: Text(
+                'Create your family group',
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
       body: ListView(
@@ -55,17 +58,9 @@ class RegisterFamilyScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: const TextField(
-              scrollPadding: EdgeInsets.only(bottom: 40),
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Family Name',
-                hintStyle: TextStyle(
-                  color: hintTextColor,
-                  fontFamily: 'OpenSansSemiBold',
-                  fontSize: 20,
-                ),
-              ),
+            child: TextFieldWidget(
+              hintText: 'Family Name',
+              controller: familyNameController,
             ),
           ),
           Padding(
@@ -73,17 +68,9 @@ class RegisterFamilyScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: const TextField(
-              scrollPadding: EdgeInsets.only(bottom: 40),
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Email',
-                hintStyle: TextStyle(
-                  color: hintTextColor,
-                  fontFamily: 'OpenSansSemiBold',
-                  fontSize: 20,
-                ),
-              ),
+            child: TextFieldWidget(
+              hintText: 'Email',
+              controller: emailRegisterController,
             ),
           ),
           Padding(
@@ -91,17 +78,9 @@ class RegisterFamilyScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: const TextField(
-              scrollPadding: EdgeInsets.only(bottom: 40),
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Password',
-                hintStyle: TextStyle(
-                  color: hintTextColor,
-                  fontFamily: 'OpenSansSemiBold',
-                  fontSize: 20,
-                ),
-              ),
+            child: TextFieldWidget(
+              hintText: 'Password',
+              controller: passwordRegisterController,
             ),
           ),
           Padding(
@@ -109,17 +88,9 @@ class RegisterFamilyScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: const TextField(
-              scrollPadding: EdgeInsets.only(bottom: 40),
-              decoration: InputDecoration(
-                border: UnderlineInputBorder(),
-                hintText: 'Confirm Password',
-                hintStyle: TextStyle(
-                  color: hintTextColor,
-                  fontFamily: 'OpenSansSemiBold',
-                  fontSize: 20,
-                ),
-              ),
+            child: TextFieldWidget(
+              hintText: 'Confirm Password',
+              controller: confirmPasswordRegisterController,
             ),
           ),
           SizedBox(

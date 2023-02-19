@@ -9,6 +9,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       body: Column(
         children: [
           Image.asset('assets/login_page_photo.jpg'),
@@ -43,7 +44,9 @@ class WelcomeScreen extends StatelessWidget {
                     },
                     isSecondary: true,
                   ),
-                  const Spacer(flex: 2,),
+                  const Spacer(
+                    flex: 2,
+                  ),
                   const Text(
                     "DON'T HAVE A FAMILY GROUP YET?",
                     style: TextStyle(

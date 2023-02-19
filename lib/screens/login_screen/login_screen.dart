@@ -3,7 +3,14 @@ import 'package:familyapp/widgets/button_widget.dart';
 import 'package:familyapp/widgets/text_button.dart';
 import 'package:flutter/material.dart';
 
+import '../../route_name.dart';
+import '../../widgets/text_field.dart';
+
 class LoginScreen extends StatelessWidget {
+  LoginScreen({super.key});
+  final TextEditingController emailLoginController = TextEditingController();
+  final TextEditingController passwordLoginController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,16 +50,9 @@ class LoginScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: const TextField(
-              scrollPadding: EdgeInsets.only(bottom: 40),
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  hintText: 'Email',
-                  hintStyle: TextStyle(
-                    color: hintTextColor,
-                    fontFamily: 'OpenSansSemiBold',
-                    fontSize: 20,
-                  )),
+            child: TextFieldWidget(
+              hintText: 'Email',
+              controller: emailLoginController,
             ),
           ),
           Padding(
@@ -60,16 +60,9 @@ class LoginScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: const TextField(
-              scrollPadding: EdgeInsets.only(bottom: 40),
-              decoration: InputDecoration(
-                  border: UnderlineInputBorder(),
-                  hintText: 'Password',
-                  hintStyle: TextStyle(
-                    color: hintTextColor,
-                    fontFamily: 'OpenSansSemiBold',
-                    fontSize: 20,
-                  )),
+            child: TextFieldWidget(
+              hintText: 'Password',
+              controller: passwordLoginController,
             ),
           ),
           Padding(
@@ -90,9 +83,13 @@ class LoginScreen extends StatelessWidget {
               const Center(child: Text('OR')),
               ButtonText(
                 text: 'CREATE A NEW FAMILY GROUP',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(registerProfileScreen);
+                },
               ),
-              const SizedBox(height: 16,),
+              const SizedBox(
+                height: 16,
+              ),
             ],
           )
         ],
