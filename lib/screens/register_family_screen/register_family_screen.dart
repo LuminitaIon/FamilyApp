@@ -1,15 +1,17 @@
+import 'package:familyapp/screens/register_family_screen/bloc/register_family_bloc.dart';
+import 'package:familyapp/screens/register_family_screen/bloc/register_family_event.dart';
+import 'package:familyapp/screens/register_family_screen/bloc/register_family_state.dart';
+import 'package:familyapp/screens/register_profile_screen/bloc/register_profile_bloc.dart';
 import 'package:familyapp/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../colors.dart';
 import '../../route_name.dart';
 import '../../widgets/text_field.dart';
 
 class RegisterFamilyScreen extends StatelessWidget {
-  final TextEditingController familyNameController = TextEditingController();
-  final TextEditingController emailRegisterController = TextEditingController();
-  final TextEditingController passwordRegisterController = TextEditingController();
-  final TextEditingController confirmPasswordRegisterController = TextEditingController();
+
   RegisterFamilyScreen({super.key});
 
   @override
@@ -50,77 +52,110 @@ class RegisterFamilyScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          Image.asset("assets/register_family.jpg"),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.15,
-              vertical: 8,
-            ),
-            child: TextFieldWidget(
-              hintText: 'Family Name',
-              controller: familyNameController,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.15,
-              vertical: 8,
-            ),
-            child: TextFieldWidget(
-              hintText: 'Email',
-              controller: emailRegisterController,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.15,
-              vertical: 8,
-            ),
-            child: TextFieldWidget(
-              hintText: 'Password',
-              controller: passwordRegisterController,
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.15,
-              vertical: 8,
-            ),
-            child: TextFieldWidget(
-              hintText: 'Confirm Password',
-              controller: confirmPasswordRegisterController,
-            ),
-          ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.05,
-          ),
-          Column(
-            children: [
-              ButtonWidget(
-                text: 'CREATE YOUR ACCOUNT',
-                onPressed: () {
-                  Navigator.of(context).pushNamed(registerProfileScreen);
-                },
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.01,
-              ),
-              ButtonWidget(
-                color: secondaryColor,
-                text: 'GO BACK',
-                isSecondary: true,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
-              ),
-            ],
-          )
-        ],
+      body: BlocProvider(
+        create: (context) => RegisterFamilyBloc(),
+        child: BlocBuilder<RegisterFamilyBloc, RegisterFamilyState>(
+          builder: (context, state) {
+            debugPrint(state.confirmPassword);
+            return ListView(
+              children: [
+                Image.asset("assets/register_family.jpg"),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 8,
+                  ),
+                  child: TextFieldWidget(
+
+                    onChange: (data) {
+                      context
+                          .read<RegisterFamilyBloc>()
+                          .add(RegisterFamilyNameEvent(data));
+                    },
+                    hintText: 'Family Name',
+                    error: state.errorFamilyName,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 8,
+                  ),
+                  child: TextFieldWidget(
+                    onChange: (data) {
+                      context
+                          .read<RegisterFamilyBloc>()
+                          .add(RegisterEmailEvent(data));
+                    },
+                    hintText: 'Email',
+                    error: state.errorEmail,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 8,
+                  ),
+                  child: TextFieldWidget(
+                    onChange: (data) {
+                      context
+                          .read<RegisterFamilyBloc>()
+                          .add(RegisterPasswordEvent(data));
+                    },
+                    isPassword: true,
+                    hintText: 'Password',
+                    error: state.errorPassword,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.15,
+                    vertical: 8,
+                  ),
+                  child: TextFieldWidget(
+                    onChange: (data) {
+                      context
+                          .read<RegisterFamilyBloc>()
+                          .add(RegisterConfirmPasswordEvent(data));
+                    },
+                    isPassword: true,
+                    hintText: 'Confirm Password',
+                    error: state.errorConfirmPassword,
+
+                  ),
+                ),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.05,
+                ),
+                Column(
+                  children: [
+                    ButtonWidget(
+                      text: 'CREATE YOUR ACCOUNT',
+                      onPressed: () {
+                        Navigator.of(context).pushNamed(registerProfileScreen);
+                      },
+                      isEnable: state.enableButton,
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.01,
+                    ),
+                    ButtonWidget(
+                      color: secondaryColor,
+                      text: 'GO BACK',
+                      isSecondary: true,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.05,
+                    ),
+                  ],
+                )
+              ],
+            );
+          },
+        ),
       ),
     );
   }

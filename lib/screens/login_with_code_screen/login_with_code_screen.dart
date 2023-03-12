@@ -4,9 +4,11 @@ import '../../colors.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/text_button.dart';
 import '../../widgets/text_field.dart';
+import '../../route_name.dart';
 
 class LoginWithCodeScreen extends StatelessWidget {
   final TextEditingController enterCodeController = TextEditingController();
+
   LoginWithCodeScreen({super.key});
 
   @override
@@ -49,7 +51,10 @@ class LoginWithCodeScreen extends StatelessWidget {
               horizontal: MediaQuery.of(context).size.width * 0.15,
               vertical: 8,
             ),
-            child: TextFieldWidget(hintText: 'ENTER CODE', controller: enterCodeController, ),
+            child: TextFieldWidget(
+              hintText: 'ENTER CODE',
+              onChange: (data) {},
+            ),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
@@ -65,7 +70,9 @@ class LoginWithCodeScreen extends StatelessWidget {
             children: [
               ButtonText(
                 text: 'CREATE A NEW FAMILY GROUP',
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).pushNamed(registerProfileScreen);
+                },
               ),
               const SizedBox(
                 height: 16,

@@ -6,24 +6,26 @@ class ButtonWidget extends StatelessWidget {
   final String text;
   final Function onPressed;
   final bool isSecondary;
+  final bool isEnable;
 
   ButtonWidget({
     this.color = primaryColor,
     required this.text,
     required this.onPressed,
     this.isSecondary = false,
+    this.isEnable = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       child: GestureDetector(
-        onTap:(){ onPressed();},
+        onTap: isEnable ? (){ onPressed();} : null,
         child: Container(
           height: 60,
           width: 278,
           decoration: BoxDecoration(
-            color: color,
+            color: isEnable ? color : color.withOpacity(0.5),
             borderRadius: BorderRadius.circular(20),
             border: isSecondary
                 ? Border.all(

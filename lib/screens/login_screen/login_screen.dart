@@ -51,8 +51,9 @@ class LoginScreen extends StatelessWidget {
               vertical: 8,
             ),
             child: TextFieldWidget(
+              onChange: (data){},
+
               hintText: 'Email',
-              controller: emailLoginController,
             ),
           ),
           Padding(
@@ -61,8 +62,10 @@ class LoginScreen extends StatelessWidget {
               vertical: 8,
             ),
             child: TextFieldWidget(
+              onChange: (data){},
+
               hintText: 'Password',
-              controller: passwordLoginController,
+
             ),
           ),
           Padding(
@@ -80,11 +83,11 @@ class LoginScreen extends StatelessWidget {
                 text: 'FORGOT PASSWORD',
                 onPressed: () {},
               ),
-              const Center(child: Text('OR')),
+              const Center(child: Text('OR'),),
               ButtonText(
                 text: 'CREATE A NEW FAMILY GROUP',
                 onPressed: () {
-                  Navigator.of(context).pushNamed(registerProfileScreen);
+                  Navigator.of(context).pushNamed(registerFamilyScreen);
                 },
               ),
               const SizedBox(

@@ -21,8 +21,11 @@ class ButtonText extends StatelessWidget {
           child: Center(
             child: Text(
               text,
-              style: const TextStyle(color: primaryColor, fontFamily: "OpenSansSemiBold", fontSize: 16, ),
-              
+              style: const TextStyle(
+                color: primaryColor,
+                fontFamily: "OpenSansSemiBold",
+                fontSize: 16,
+              ),
             ),
           ),
         ),
