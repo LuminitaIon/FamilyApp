@@ -9,6 +9,7 @@ class RegisterFamilyState extends Equatable {
   String? errorEmail;
   String? errorPassword;
   String? errorConfirmPassword;
+  RegisterStates? states;
 
   bool get enableButton =>
       familyName.isNotEmpty &&
@@ -29,6 +30,7 @@ class RegisterFamilyState extends Equatable {
     this.errorEmail,
     this.errorPassword,
     this.errorConfirmPassword,
+    this.states = RegisterStates.loaded,
   });
 
   RegisterFamilyState copyWith({
@@ -40,12 +42,14 @@ class RegisterFamilyState extends Equatable {
     String? errorEmail,
     String? errorPassword,
     String? errorConfirmPassword,
+    RegisterStates? states,
   }) =>
       RegisterFamilyState(
         familyName: familyName ?? this.familyName,
         email: email ?? this.email,
         password: password ?? this.password,
         confirmPassword: confirmPassword ?? this.confirmPassword,
+        states: states ?? this.states,
         errorFamilyName: errorFamilyName != null
             ? (errorFamilyName.isNotEmpty ? errorFamilyName : null)
             : this.errorFamilyName,
@@ -68,3 +72,5 @@ class RegisterFamilyState extends Equatable {
         confirmPassword,
       ];
 }
+
+enum RegisterStates {loaded, loading}

@@ -17,5 +17,12 @@ class RegisterProfileBloc extends Bloc<RegisterProfileEvent, RegisterProfileStat
     on<FirstMeetingEvent>((event, emit) {
       emit(state.copyWith(firstMeetingDate: event.firstMeetingDate));
     });
+    on<FirstNameEvent>((event, emit) {
+      emit(state.copyWith(firstName: event.data));
+    });
+    on<UploadPhotoEvent>((event, emit) {
+      emit(state.copyWith(photo: event.photoUploaded));
+
+    });
   }
 }

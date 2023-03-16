@@ -10,11 +10,13 @@ class UserLogicState extends Equatable {
                 familyName: '',
                 firstName: '',
                 id: '',
-                birthDate: initTime,
                 email: '');
 
   UserLogicState copyWith({UserStates? states, UserModel? user}) =>
-      UserLogicState(states: this.states, user: this.user);
+      UserLogicState(
+        states: states ?? this.states,
+        user: user ?? this.user,
+      );
 
   @override
   List<Object> get props => [states];

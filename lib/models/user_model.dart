@@ -14,15 +14,38 @@ class UserModel extends Equatable {
 
   UserModel(
       {required this.familyName,
-      required this.firstName,
-      required this.birthDate,
+       this.firstName ='',
+        DateTime? birthDateTime,
       required this.id,
       DateTime? weddingDateTime,
       DateTime? firstMeetingDateTime,
       this.imagePath = "",
       required this.email})
       : weddingDate = weddingDateTime ?? initTime,
-        firstMeeting = firstMeetingDateTime ?? initTime;
+        firstMeeting = firstMeetingDateTime ?? initTime,
+  birthDate = birthDateTime ?? initTime;
+
+  static UserModel fromJson(Map<String, dynamic> json) => UserModel(
+        familyName: json["family_name"],
+        firstName: json["first_name"],
+        birthDateTime: json["birth_date"]?.toDate()  ,
+        id: json["uid"],
+        email: json["email"],
+        weddingDateTime: json["wedding_date"]?.toDate(),
+        firstMeetingDateTime:  json["first_meeting"]?.toDate(),
+        imagePath: json["image_path"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "family_name": familyName,
+        "first_name": firstName,
+        "birth_date": birthDate,
+        "uid": id,
+        "email": email,
+        "weddingDate": weddingDate,
+        "first_meeting": firstMeeting,
+        "image_path": imagePath,
+      };
 
   @override
   List<Object?> get props => [

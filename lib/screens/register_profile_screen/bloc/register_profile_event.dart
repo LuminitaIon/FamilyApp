@@ -1,4 +1,6 @@
 
+import 'dart:io';
+
 abstract class RegisterProfileEvent {}
 
 class DateBirthEvent extends RegisterProfileEvent {
@@ -21,4 +23,16 @@ class FirstMeetingEvent extends RegisterProfileEvent {
 
 class GoToYourFamilyEvent extends RegisterProfileEvent {
 
+}
+
+class FirstNameEvent extends RegisterProfileEvent {
+  String data;
+
+  FirstNameEvent(this.data);
+}
+
+class UploadPhotoEvent extends RegisterProfileEvent {
+  File photoUploaded;
+
+  UploadPhotoEvent(this.photoUploaded);
 }

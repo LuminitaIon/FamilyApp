@@ -4,7 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:familyapp/screens/register_family_screen/bloc/register_family_event.dart';
 import 'package:familyapp/screens/register_family_screen/bloc/register_family_state.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../utils.dart';
 
@@ -33,6 +35,10 @@ class RegisterFamilyBloc
       final error = checkPasswordMatch(state.password, event.data);
       emit(state.copyWith(
           confirmPassword: event.data, errorConfirmPassword: error));
+    });
+
+    on<RegisterLoadingEvent>((event, emit) {
+      emit(state.copyWith(states: RegisterStates.loading));
     });
   }
 

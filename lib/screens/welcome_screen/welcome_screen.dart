@@ -34,7 +34,7 @@ class WelcomeScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(
-                    height: 8,
+                    height: 16,
                   ),
                   ButtonWidget(
                     text: "ENTER WITH A FAMILY CODE",

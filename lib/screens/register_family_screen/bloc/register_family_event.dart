@@ -24,3 +24,7 @@ class RegisterConfirmPasswordEvent extends RegisterFamilyEvent {
 
   RegisterConfirmPasswordEvent(this.data);
 }
+
+class RegisterLoadingEvent extends RegisterFamilyEvent {
+
+}

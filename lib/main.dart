@@ -1,3 +1,5 @@
+import 'package:familyapp/family_bloc/family_bloc.dart';
+import 'package:familyapp/firebase_options.dart';
 import 'package:familyapp/route_name.dart';
 import 'package:familyapp/screens/dashboard/dashboard.dart';
 import 'package:familyapp/screens/login_screen/login_screen.dart';
@@ -6,13 +8,19 @@ import 'package:familyapp/screens/register_profile_screen/register_profile_scree
 import 'package:familyapp/screens/splash_screen/splash_screen.dart';
 import 'package:familyapp/screens/welcome_screen/welcome_screen.dart';
 import 'package:familyapp/user_bloc/user_logic_bloc.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'screens/register_family_screen/register_family_screen.dart';
 
-void main() {
+void main() async{
   runApp(const MyApp());
+  await Firebase.initializeApp(
+
+    options: DefaultFirebaseOptions.currentPlatform,
+
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -20,8 +28,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => UserLogicBloc(),
+    return MultiBlocProvider(
+      providers:[
+        BlocProvider(create: (context) => UserLogicBloc()),
+        BlocProvider(create: (context) => FamilyBloc()),
+      ] ,
       child: MaterialApp(
         routes: {
           splashScreen: (context) => SplashScreen(),

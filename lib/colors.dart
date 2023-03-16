@@ -5,3 +5,4 @@ const secondaryColor = Color(0xffFAF0F3);
 const white = Colors.white;
 const black = Colors.black;
 const hintTextColor = Color(0xff6B6B6B);
+const gray = Color(0xffc7c7c7);

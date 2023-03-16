@@ -26,3 +26,19 @@ class DeleteEvent extends UserLogicEvent {
 class RegisterEvent extends UserLogicEvent {
 
 }
+
+class CreateAccountEvent extends UserLogicEvent {
+  String email;
+  String password;
+  String familyName;
+
+  CreateAccountEvent(this.email, this.password, this.familyName);
+}
+
+class UpdateOnFamilyCreatedEvent extends UserLogicEvent {
+  String firstName;
+  DateTime birthDate;
+  File? userPhoto;
+
+  UpdateOnFamilyCreatedEvent(this.firstName, this.birthDate, this.userPhoto);
+}

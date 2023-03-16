@@ -2,12 +2,15 @@ import 'package:familyapp/colors.dart';
 import 'package:familyapp/widgets/button_widget.dart';
 import 'package:familyapp/widgets/text_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../route_name.dart';
 import '../../widgets/text_field.dart';
+import 'bloc/login_bloc.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
+
   final TextEditingController emailLoginController = TextEditingController();
   final TextEditingController passwordLoginController = TextEditingController();
 
@@ -42,60 +45,80 @@ class LoginScreen extends StatelessWidget {
           ],
         ),
       ),
-      body: ListView(
-        children: [
-          Image.asset('assets/family_login.jpg'),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.15,
-              vertical: 8,
-            ),
-            child: TextFieldWidget(
-              onChange: (data){},
+      body: BlocProvider(
+        create: (context) => LoginBloc(),
+        child: BlocListener<LoginBloc, LoginState>(
+          listener: (context, state) {
+            if (state.state == LoginStates.success) {
+              Navigator.of(context).pushNamed(dashboardScreen);
+            }
+          },
+          child: BlocBuilder<LoginBloc, LoginState>(
+            builder: (context, state) {
+              return ListView(
+                children: [
+                  Image.asset('assets/family_login.jpg'),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.15,
+                      vertical: 8,
+                    ),
+                    child: TextFieldWidget(
+                      onChange: (data) {
+                        context.read<LoginBloc>().add(LoginAddEmailEvent(data));
+                      },
+                      hintText: 'Email',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: MediaQuery.of(context).size.width * 0.15,
+                      vertical: 8,
+                    ),
+                    child: TextFieldWidget(
+                      onChange: (data) {
+                        context.read<LoginBloc>().add(LoginAddPassword(data));
+                      },
+                      hintText: 'Password',
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: MediaQuery.of(context).size.width * 0.1,
+                        horizontal: MediaQuery.of(context).size.width * 0.1),
+                    child: ButtonWidget(
+                      text: 'LOGIN',
+                      onPressed: () {
+                        context.read<LoginBloc>().add(LoginToAccount());
 
-              hintText: 'Email',
-            ),
+                      },
+                    ),
+                  ),
+                  Column(
+                    children: [
+                      ButtonText(
+                        text: 'FORGOT PASSWORD',
+                        onPressed: () {},
+                      ),
+                      const Center(
+                        child: Text('OR'),
+                      ),
+                      ButtonText(
+                        text: 'CREATE A NEW FAMILY GROUP',
+                        onPressed: () {
+                          Navigator.of(context).pushNamed(registerFamilyScreen);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  )
+                ],
+              );
+            },
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: MediaQuery.of(context).size.width * 0.15,
-              vertical: 8,
-            ),
-            child: TextFieldWidget(
-              onChange: (data){},
-
-              hintText: 'Password',
-
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: MediaQuery.of(context).size.width * 0.1,
-                horizontal: MediaQuery.of(context).size.width * 0.1),
-            child: ButtonWidget(
-              text: 'LOGIN',
-              onPressed: () {},
-            ),
-          ),
-          Column(
-            children: [
-              ButtonText(
-                text: 'FORGOT PASSWORD',
-                onPressed: () {},
-              ),
-              const Center(child: Text('OR'),),
-              ButtonText(
-                text: 'CREATE A NEW FAMILY GROUP',
-                onPressed: () {
-                  Navigator.of(context).pushNamed(registerFamilyScreen);
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-            ],
-          )
-        ],
+        ),
       ),
     );
   }
