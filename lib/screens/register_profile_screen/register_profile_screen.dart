@@ -74,28 +74,34 @@ class RegisterProfileScreen extends StatelessWidget {
                   const SizedBox(
                     height: 8,
                   ),
-                   Align(
+                  Align(
                     alignment: Alignment.center,
                     child: CircleAvatar(
                       radius: 75,
-                      foregroundImage: state.photo != null ? Image.file(state.photo!).image : AssetImage("assets/avatar_test.jpg"),
+                      foregroundImage: state.photo != null
+                          ? Image.file(state.photo!).image
+                          : AssetImage("assets/avatar_test.jpg"),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 8,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Spacer(),
-                      IconText(onPressed:()=> () async {
-                        final pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
+                      const Spacer(),
+                      IconText(
+                          onPressed: () => () async {
+                                final pickedFile = await ImagePicker()
+                                    .pickImage(source: ImageSource.gallery);
 
-                        if(pickedFile != null) {
-                          final filePath = File(pickedFile.path);
-                          context.read<RegisterProfileBloc>().add(UploadPhotoEvent(filePath));
-                        }
-                      }),
+                                if (pickedFile != null) {
+                                  final filePath = File(pickedFile.path);
+                                  context
+                                      .read<RegisterProfileBloc>()
+                                      .add(UploadPhotoEvent(filePath));
+                                }
+                              }),
                       Spacer(),
                     ],
                   ),
@@ -124,7 +130,7 @@ class RegisterProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                 CustomDatePicker(
+                  CustomDatePicker(
                     text: state.birthDate.year != initTime.year
                         ? state.birthDate
                         : null,
@@ -179,7 +185,9 @@ class RegisterProfileScreen extends StatelessWidget {
                               ));
                           context.read<UserLogicBloc>().add(
                               UpdateOnFamilyCreatedEvent(
-                                  state.firstName, state.birthDate, state.photo));
+                                  firstName: state.firstName,
+                                  birthDate: state.birthDate,
+                                  userPhoto: state.photo));
                         },
                       ),
                       SizedBox(

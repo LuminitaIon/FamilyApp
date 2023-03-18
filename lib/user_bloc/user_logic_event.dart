@@ -7,25 +7,15 @@ class UserLogicEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class LoginEvent extends UserLogicEvent {
+class LoginEvent extends UserLogicEvent {}
 
-}
+class LogoutEvent extends UserLogicEvent {}
 
-class LogoutEvent extends UserLogicEvent {
+class UpdateEvent extends UserLogicEvent {}
 
-}
+class DeleteEvent extends UserLogicEvent {}
 
-class UpdateEvent extends UserLogicEvent {
-
-}
-
-class DeleteEvent extends UserLogicEvent {
-
-}
-
-class RegisterEvent extends UserLogicEvent {
-
-}
+class RegisterEvent extends UserLogicEvent {}
 
 class CreateAccountEvent extends UserLogicEvent {
   String email;
@@ -39,6 +29,12 @@ class UpdateOnFamilyCreatedEvent extends UserLogicEvent {
   String firstName;
   DateTime birthDate;
   File? userPhoto;
+  String? email;
 
-  UpdateOnFamilyCreatedEvent(this.firstName, this.birthDate, this.userPhoto);
+  UpdateOnFamilyCreatedEvent({
+    required this.firstName,
+    required this.birthDate,
+    this.userPhoto,
+    this.email,}
+  );
 }

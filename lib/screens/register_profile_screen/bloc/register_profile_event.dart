@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 abstract class RegisterProfileEvent {}
@@ -21,9 +20,7 @@ class FirstMeetingEvent extends RegisterProfileEvent {
   FirstMeetingEvent(this.firstMeetingDate);
 }
 
-class GoToYourFamilyEvent extends RegisterProfileEvent {
-
-}
+class GoToYourFamilyEvent extends RegisterProfileEvent {}
 
 class FirstNameEvent extends RegisterProfileEvent {
   String data;

@@ -7,13 +7,17 @@ class TextFieldWidget extends StatelessWidget {
   final String? error;
   final bool isPassword;
   final Function(String) onChange;
+  final TextStyle? style;
+  final BorderSide? border;
 
   const TextFieldWidget(
       {Key? key,
       required this.hintText,
       required this.onChange,
       this.error,
-      this.isPassword = false})
+        this.border,
+      this.isPassword = false,
+      this.style})
       : super(key: key);
 
   @override
@@ -27,9 +31,10 @@ class TextFieldWidget extends StatelessWidget {
         errorStyle: const TextStyle(
           fontFamily: 'OpenSansSemiBold',
         ),
-        border: const UnderlineInputBorder(),
+        disabledBorder: border != null ? UnderlineInputBorder(borderSide: border!): UnderlineInputBorder(),
+        enabledBorder: border != null ? UnderlineInputBorder(borderSide: border!): UnderlineInputBorder(),
         hintText: hintText,
-        hintStyle: const TextStyle(
+        hintStyle: style ?? const TextStyle(
           color: hintTextColor,
           fontFamily: 'OpenSansSemiBold',
           fontSize: 20,

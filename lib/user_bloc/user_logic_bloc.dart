@@ -23,7 +23,7 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
     });
 
     on<UpdateOnFamilyCreatedEvent>((event, emit) {
-      update(event.firstName, event.birthDate, event.userPhoto);
+      update(event.firstName, event.birthDate, event.userPhoto, event.email);
     });
   }
 
@@ -41,7 +41,7 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
     }
   }
 
-  update(String firstName, DateTime birthDate, File? photo) async {
+  update(String firstName, DateTime birthDate, File? photo, String? email) async {
     if (photo != null) {
       final fileName = basename(photo!.path);
       final destination = 'files/$fileName';
@@ -64,6 +64,8 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
       "first_name": firstName,
       "birth_date": birthDate,
       "image_path": state.user.imagePath,
+      if(email !=null)
+        "email": email
     });
 
     final userUpdated = await FirebaseFirestore.instance

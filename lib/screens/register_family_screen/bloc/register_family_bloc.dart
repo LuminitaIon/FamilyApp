@@ -28,7 +28,11 @@ class RegisterFamilyBloc
       final confirmError = state.confirmPassword.isNotEmpty
           ? checkPasswordMatch(event.data, state.confirmPassword)
           : null;
-      emit(state.copyWith(password: event.data, errorPassword: error, errorConfirmPassword: confirmError));
+      emit(state.copyWith(
+        password: event.data,
+        errorPassword: error,
+        errorConfirmPassword: confirmError,
+      ));
     });
 
     on<RegisterConfirmPasswordEvent>((event, emit) {
@@ -72,6 +76,5 @@ class RegisterFamilyBloc
     } else {
       return "Your password must have at least 8 characters";
     }
-
   }
 }

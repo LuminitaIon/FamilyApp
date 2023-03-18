@@ -58,7 +58,7 @@ class LoginWithCodeScreen extends StatelessWidget {
           listener: (context, state) {
             if(state.state == LoginWithCodeStates.success && state.family != null) {
               context.read<FamilyBloc>().add(GetFamilyFirebaseEvent(state.family!));
-              Navigator.of(context).pushNamed(dashboardScreen);
+              Navigator.of(context).pushNamed(updateProfileScreen);
             }
             if(state.state == LoginWithCodeStates.error) {
               Fluttertoast.showToast(
