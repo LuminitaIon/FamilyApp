@@ -1,9 +1,7 @@
-import 'dart:async';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
+
 
 part 'login_event.dart';
 
@@ -22,14 +20,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginToAccount>((event, emit) async {
       emit(state.copyWith(state: LoginStates.loading));
       try {
-        debugPrint(state.email);
-        debugPrint(state.password);
-
         await FirebaseAuth.instance.signInWithEmailAndPassword(
             email: state.email, password: state.password);
+
         emit(state.copyWith(state: LoginStates.success));
-      } catch (e) {
-        debugPrint(e.toString());
+      } catch ( e) {
         emit(state.copyWith(state: LoginStates.error));
       }
     });

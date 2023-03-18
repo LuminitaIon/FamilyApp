@@ -14,7 +14,6 @@ import '../../route_name.dart';
 import '../../utils.dart';
 import '../../widgets/button_widget.dart';
 import '../../widgets/icon_text_button.dart';
-import '../../widgets/text_button.dart';
 import 'bloc/register_profile_state.dart';
 
 class RegisterProfileScreen extends StatelessWidget {
@@ -125,7 +124,7 @@ class RegisterProfileScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  CustomDatePicker(
+                 CustomDatePicker(
                     text: state.birthDate.year != initTime.year
                         ? state.birthDate
                         : null,

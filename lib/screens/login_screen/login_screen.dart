@@ -3,6 +3,8 @@ import 'package:familyapp/widgets/button_widget.dart';
 import 'package:familyapp/widgets/text_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 
 import '../../route_name.dart';
 import '../../widgets/text_field.dart';
@@ -14,6 +16,7 @@ class LoginScreen extends StatelessWidget {
   final TextEditingController emailLoginController = TextEditingController();
   final TextEditingController passwordLoginController = TextEditingController();
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,12 +25,14 @@ class LoginScreen extends StatelessWidget {
         titleTextStyle: const TextStyle(
           color: Colors.black,
           fontFamily: 'OpenSansBold',
-          fontSize: 32,
+          fontSize: 28,
         ),
         backgroundColor: white,
         automaticallyImplyLeading: false,
         title: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisSize: MainAxisSize.max,
           children: [
             Center(
               child: IconButton(
@@ -40,8 +45,8 @@ class LoginScreen extends StatelessWidget {
                     color: primaryColor,
                   )),
             ),
+            const Text('Welcome Back!', textAlign: TextAlign.center,),
             const SizedBox(width: 20),
-            const Text('Welcome Back!'),
           ],
         ),
       ),
@@ -52,6 +57,17 @@ class LoginScreen extends StatelessWidget {
             if (state.state == LoginStates.success) {
               Navigator.of(context).pushNamed(dashboardScreen);
             }
+            if(state.state == LoginStates.error) {
+
+              Fluttertoast.showToast(
+                  msg: "Your credentials are invalid. Please try again",
+                  toastLength: Toast.LENGTH_LONG,
+                  gravity: ToastGravity.CENTER,
+                  backgroundColor: Colors.grey,
+                  fontSize: 16
+              );
+            }
+
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
@@ -76,6 +92,7 @@ class LoginScreen extends StatelessWidget {
                       vertical: 8,
                     ),
                     child: TextFieldWidget(
+                      isPassword: true,
                       onChange: (data) {
                         context.read<LoginBloc>().add(LoginAddPassword(data));
                       },

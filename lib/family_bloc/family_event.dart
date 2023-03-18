@@ -14,3 +14,9 @@ class CreateFamilyEvent extends FamilyEvent {
       this.weddingDate,
       this.firstMeetingDate});
 }
+
+class GetFamilyFirebaseEvent extends FamilyEvent {
+  FamilyModel family;
+
+  GetFamilyFirebaseEvent(this.family);
+}

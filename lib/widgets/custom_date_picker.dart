@@ -39,7 +39,7 @@ class CustomDatePicker extends StatelessWidget {
       },
       child: Column(
         children: [
-          DatePickerButton(
+         DatePickerButton(
             color: error == null ? primaryColor : Colors.amber,
             text: text != null ? DateFormat('dd.MM.yyyy').format(text!) : hint,
           ),

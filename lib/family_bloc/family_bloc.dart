@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +15,9 @@ class FamilyBloc extends Bloc<FamilyEvent, FamilyState> {
   FamilyBloc() : super(FamilyState()) {
     on<CreateFamilyEvent>((event, emit) {
       register(event);
+    });
+    on<GetFamilyFirebaseEvent>((event, emit) {
+      emit(state.copyWith(family: event.family));
     });
   }
 
