@@ -26,6 +26,10 @@ class LoginWithCodeBloc extends Bloc<LoginWithCodeEvent, LoginWithCodeState> {
             .collection('family')
             .where('family_code', isEqualTo: newCode)
             .get();
+        if(fCode.docs.first.get('id_secondParent') != null) {
+          emit(state.copyWith(state: LoginWithCodeStates.error));
+          return;
+        }
         if (fCode.size != 0) {
           emit(state.copyWith(
             family: FamilyModel.fromJson(fCode.docs.first.data()),

@@ -56,18 +56,20 @@ class LoginWithCodeScreen extends StatelessWidget {
         create: (context) => LoginWithCodeBloc(),
         child: BlocConsumer<LoginWithCodeBloc, LoginWithCodeState>(
           listener: (context, state) {
-            if(state.state == LoginWithCodeStates.success && state.family != null) {
-              context.read<FamilyBloc>().add(GetFamilyFirebaseEvent(state.family!));
+            if (state.state == LoginWithCodeStates.success &&
+                state.family != null) {
+              context
+                  .read<FamilyBloc>()
+                  .add(GetFamilyFirebaseEvent(state.family!));
               Navigator.of(context).pushNamed(updateProfileScreen);
             }
-            if(state.state == LoginWithCodeStates.error) {
+            if (state.state == LoginWithCodeStates.error) {
               Fluttertoast.showToast(
-                  msg: "This family doesn't exist. Please create your family",
+                  msg: "This family doesn't exist or has two parents",
                   toastLength: Toast.LENGTH_LONG,
                   gravity: ToastGravity.CENTER,
                   backgroundColor: Colors.grey,
-                  fontSize: 16
-              );
+                  fontSize: 16);
             }
           },
           builder: (context, state) {
@@ -82,7 +84,9 @@ class LoginWithCodeScreen extends StatelessWidget {
                   child: TextFieldWidget(
                     hintText: 'ENTER CODE',
                     onChange: (data) {
-                      context.read<LoginWithCodeBloc>().add(LoginCodeAddEvent(data));
+                      context
+                          .read<LoginWithCodeBloc>()
+                          .add(LoginCodeAddEvent(data));
                     },
                   ),
                 ),
@@ -93,7 +97,9 @@ class LoginWithCodeScreen extends StatelessWidget {
                   child: ButtonWidget(
                     text: 'LOGIN',
                     onPressed: () {
-                      context.read<LoginWithCodeBloc>().add(ButtonPressedEvent());
+                      context
+                          .read<LoginWithCodeBloc>()
+                          .add(ButtonPressedEvent());
                     },
                   ),
                 ),
@@ -103,7 +109,8 @@ class LoginWithCodeScreen extends StatelessWidget {
                     ButtonText(
                       text: 'CREATE A NEW FAMILY GROUP',
                       onPressed: () {
-                        Navigator.of(context).pushNamed(registerProfileScreen);
+                        Navigator.of(context)
+                            .pushNamed(registerProfileScreen);
                       },
                     ),
                     const SizedBox(

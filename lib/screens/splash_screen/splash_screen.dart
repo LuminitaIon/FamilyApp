@@ -16,7 +16,9 @@ class SplashScreen extends StatelessWidget {
           if (state.states == SplashScreenStates.loginRedirect) {
             Navigator.of(context).pushNamed(welcomeScreen);
           }
-          if (state.states == SplashScreenStates.userRedirect) {}
+          if (state.states == SplashScreenStates.userRedirect) {
+            Navigator.of(context).pushNamed(dashboardScreen);
+          }
         },
         builder: (context, state) {
           if(state.states == SplashScreenStates.init){

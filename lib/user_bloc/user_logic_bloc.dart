@@ -25,6 +25,17 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
     on<UpdateOnFamilyCreatedEvent>((event, emit) {
       update(event.firstName, event.birthDate, event.userPhoto, event.email);
     });
+
+    on<CreateSecondParentEvent>((event, emit) {
+      createSecondAcc(
+        event.email,
+        event.password,
+        event.familyName,
+        event.firstName,
+        event.birthDate,
+        event.userPhoto,
+      );
+    });
   }
 
   register(String email, String password, String familyName) async {
@@ -41,7 +52,8 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
     }
   }
 
-  update(String firstName, DateTime birthDate, File? photo, String? email) async {
+  update(
+      String firstName, DateTime birthDate, File? photo, String? email) async {
     if (photo != null) {
       final fileName = basename(photo!.path);
       final destination = 'files/$fileName';
@@ -49,7 +61,8 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
       try {
         final ref = await firebase_storage.FirebaseStorage.instance
             .ref(destination)
-            .child('file/').putFile(photo);
+            .child('file/')
+            .putFile(photo);
         state.user.imagePath = await ref.ref.getDownloadURL();
         debugPrint(state.user.imagePath);
       } catch (e) {
@@ -64,17 +77,33 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
       "first_name": firstName,
       "birth_date": birthDate,
       "image_path": state.user.imagePath,
-      if(email !=null)
-        "email": email
+      if (email != null) "email": email
     });
 
     final userUpdated = await FirebaseFirestore.instance
         .collection("user")
         .doc(state.user.id)
         .get();
-    if(userUpdated.data() != null) {
-      emit(state.copyWith(states: UserStates.logged, user: UserModel.fromJson(userUpdated.data()!)));
+    if (userUpdated.data() != null) {
+      emit(state.copyWith(
+          states: UserStates.logged,
+          user: UserModel.fromJson(userUpdated.data()!)));
     }
+  }
 
+  createSecondAcc(String email, String password, String familyName,
+      String firstName, DateTime birthDate, File? photo) async {
+    final newUser = await FirebaseAuth.instance
+        .createUserWithEmailAndPassword(email: email, password: password);
+    final appUser = UserModel(
+      familyName: familyName,
+      id: newUser.user!.uid,
+      email: email,
+      firstName: firstName,
+      birthDateTime: birthDate,
+      imagePath: photo != null ? photo.path: '',
+    );
+    await FirebaseFirestore.instance.collection("user").doc(newUser.user!.uid).set(appUser.toJson());
+    emit(state.copyWith(states: UserStates.logged, user: appUser));
   }
 }

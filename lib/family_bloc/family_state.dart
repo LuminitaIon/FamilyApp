@@ -24,4 +24,4 @@ class FamilyState extends Equatable {
   List<Object> get props => [states, family];
 }
 
-enum FamilyStates { init, loaded, loading }
+enum FamilyStates { init, loaded, loading, error }

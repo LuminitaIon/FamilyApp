@@ -25,6 +25,24 @@ class CreateAccountEvent extends UserLogicEvent {
   CreateAccountEvent(this.email, this.password, this.familyName);
 }
 
+class CreateSecondParentEvent extends UserLogicEvent {
+  String email;
+  String password;
+  String firstName;
+  String familyName;
+  DateTime birthDate;
+  File? userPhoto;
+
+  CreateSecondParentEvent({
+    required this.email,
+    required this.password,
+    required this.firstName,
+    required this.familyName,
+    required this.birthDate,
+    this.userPhoto,
+  });
+}
+
 class UpdateOnFamilyCreatedEvent extends UserLogicEvent {
   String firstName;
   DateTime birthDate;
@@ -35,6 +53,6 @@ class UpdateOnFamilyCreatedEvent extends UserLogicEvent {
     required this.firstName,
     required this.birthDate,
     this.userPhoto,
-    this.email,}
-  );
+    this.email,
+  });
 }

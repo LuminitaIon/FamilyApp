@@ -38,9 +38,6 @@ class UpdateProfileBloc extends Bloc<UpdateProfileEvent, UpdateProfileState> {
     on<AddBirthDateEvent>((event, emit) {
       emit(state.copyWith(birthDate: event.birthDate));
     });
-    on<OnPressGoToFamily>((event, emit) {
-      //TODO
-    });
   }
 
   checkEmail(String email) {

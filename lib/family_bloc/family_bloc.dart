@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
@@ -18,6 +17,12 @@ class FamilyBloc extends Bloc<FamilyEvent, FamilyState> {
     });
     on<GetFamilyFirebaseEvent>((event, emit) {
       emit(state.copyWith(family: event.family));
+    });
+    on<UpdateFamilyEvent>((event, emit) async {
+      await FirebaseFirestore.instance
+          .collection('family')
+          .doc(state.family.id)
+          .update({"id_secondParent": event.id});
     });
   }
 

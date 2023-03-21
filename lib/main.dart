@@ -9,6 +9,7 @@ import 'package:familyapp/screens/splash_screen/splash_screen.dart';
 import 'package:familyapp/screens/update_profile_screen/update_profile_screen.dart';
 import 'package:familyapp/screens/welcome_screen/welcome_screen.dart';
 import 'package:familyapp/user_bloc/user_logic_bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +41,7 @@ class MyApp extends StatelessWidget {
           loginWithCodeScreen: (context) => LoginWithCodeScreen(),
           registerFamilyScreen: (context) => RegisterFamilyScreen(),
           registerProfileScreen: (context) => const RegisterProfileScreen(),
-          dashboardScreen: (context) => const Dashboard(),
+          dashboardScreen: (context) => Dashboard(),
           updateProfileScreen: (context) => const UpdateProfileScreen(),
         },
       ),

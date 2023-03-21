@@ -20,3 +20,9 @@ class GetFamilyFirebaseEvent extends FamilyEvent {
 
   GetFamilyFirebaseEvent(this.family);
 }
+
+class UpdateFamilyEvent extends FamilyEvent {
+  String id;
+
+  UpdateFamilyEvent(this.id);
+}
