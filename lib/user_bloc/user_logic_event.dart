@@ -56,3 +56,9 @@ class UpdateOnFamilyCreatedEvent extends UserLogicEvent {
     this.email,
   });
 }
+
+class GetUserEvent extends UserLogicEvent {
+  String? id;
+
+  GetUserEvent(this.id);
+}

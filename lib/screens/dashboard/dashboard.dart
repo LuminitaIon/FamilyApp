@@ -2,14 +2,13 @@ import 'package:familyapp/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../home/home_screen.dart';
 import 'bloc/dashboard_bloc.dart';
 
 class Dashboard extends StatelessWidget {
   Dashboard({Key? key}) : super(key: key);
   List<Widget> widgetsBody = [
-    Container(
-      color: Colors.red,
-    ),
+    HomePage(),
     Container(
       color: Colors.green,
     ),

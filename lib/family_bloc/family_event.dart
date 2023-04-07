@@ -26,3 +26,9 @@ class UpdateFamilyEvent extends FamilyEvent {
 
   UpdateFamilyEvent(this.id);
 }
+
+class GetFamilyEvent extends FamilyEvent {
+  String? userId;
+
+  GetFamilyEvent(this.userId);
+}

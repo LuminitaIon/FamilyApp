@@ -10,15 +10,15 @@ part 'splash_state.dart';
 class SplashBloc extends Bloc<SplashEvent, SplashState> {
   SplashBloc() : super(SplashState()) {
     on<SplashEvent>((event, emit) async{
-      // TODO: Load Data
         emit(state.copyWith(states:SplashScreenStates.loading));
         await Future.delayed(Duration(seconds: 6));
         final auth = FirebaseAuth.instance.currentUser;
         if (auth != null) {
-          emit(state.copyWith(states:SplashScreenStates.userRedirect));
+          emit(state.copyWith(states:SplashScreenStates.userRedirect, userId: auth.uid));
         }else {
           emit(state.copyWith(states: SplashScreenStates.loginRedirect));
         }
     });
+
   }
 }

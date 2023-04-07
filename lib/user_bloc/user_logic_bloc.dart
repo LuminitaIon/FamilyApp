@@ -1,4 +1,4 @@
-import 'dart:async';
+
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
@@ -36,6 +36,17 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
         event.userPhoto,
       );
     });
+
+    on<GetUserEvent>((event, emit) async {
+      final user = await FirebaseFirestore.instance.collection('user').doc(
+          event.id).get();
+      try {
+        emit(state.copyWith(
+            states: UserStates.logged, user: UserModel.fromJson(user.data()!)));
+      } catch (e) {
+        //
+      }
+    });
   }
 
   register(String email, String password, String familyName) async {
@@ -52,8 +63,8 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
     }
   }
 
-  update(
-      String firstName, DateTime birthDate, File? photo, String? email) async {
+  update(String firstName, DateTime birthDate, File? photo,
+      String? email) async {
     if (photo != null) {
       final fileName = basename(photo!.path);
       final destination = 'files/$fileName';
@@ -95,15 +106,32 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
       String firstName, DateTime birthDate, File? photo) async {
     final newUser = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
+    String imagePath = '';
+    if (photo != null) {
+      final fileName = basename(photo!.path);
+      final destination = 'files/$fileName';
+      try {
+        final ref = await firebase_storage.FirebaseStorage.instance
+            .ref(destination)
+            .child('file/')
+            .putFile(photo);
+        imagePath = await ref.ref.getDownloadURL();
+        debugPrint(state.user.imagePath);
+      } catch (e) {
+        print('error occured');
+      }
+    }
     final appUser = UserModel(
       familyName: familyName,
       id: newUser.user!.uid,
       email: email,
       firstName: firstName,
       birthDateTime: birthDate,
-      imagePath: photo != null ? photo.path: '',
+      imagePath: photo != null ? imagePath : '',
     );
-    await FirebaseFirestore.instance.collection("user").doc(newUser.user!.uid).set(appUser.toJson());
+    await FirebaseFirestore.instance.collection("user")
+        .doc(newUser.user!.uid)
+        .set(appUser.toJson());
     emit(state.copyWith(states: UserStates.logged, user: appUser));
   }
 }

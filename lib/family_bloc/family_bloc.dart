@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
@@ -23,6 +24,29 @@ class FamilyBloc extends Bloc<FamilyEvent, FamilyState> {
           .collection('family')
           .doc(state.family.id)
           .update({"id_secondParent": event.id});
+    });
+    on<GetFamilyEvent>((event, emit) async {
+      try {
+        QuerySnapshot<Map<String, dynamic>> family = await FirebaseFirestore
+            .instance
+            .collection('family')
+            .where("id_firstParent", isEqualTo: event.userId).limit(1)
+            .get();
+        if (family.size == 0) {
+          family = await FirebaseFirestore.instance
+              .collection('family')
+              .where("id_secondParent", isEqualTo: event.userId).limit(1)
+              .get();
+        }
+        if (family.size > 0) {
+          emit(state.copyWith(
+              states: FamilyStates.loaded,
+              family: FamilyModel.fromJson(family.docs.first.data())));
+        }
+      }
+      catch (e) {
+        debugPrint(e.toString());
+      }
     });
   }
 
