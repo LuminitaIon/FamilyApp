@@ -1,6 +1,23 @@
 import 'package:familyapp/colors.dart';
+import 'package:familyapp/family_bloc/family_bloc.dart';
+import 'package:familyapp/models/event_model.dart';
+import 'package:familyapp/route_name.dart';
+import 'package:familyapp/screens/calendar/calendar_cubit.dart';
+import 'package:familyapp/screens/calendar/calendar_screen.dart';
+import 'package:familyapp/screens/dashboard/bloc/add_event_cubit.dart';
+import 'package:familyapp/screens/home/bloc/home_bloc.dart';
+import 'package:familyapp/screens/kids/kids_cubit.dart';
+import 'package:familyapp/screens/kids/kids_screen.dart';
+import 'package:familyapp/screens/my_profile/my_profile_cubit.dart';
+import 'package:familyapp/screens/my_profile/my_profile_screen.dart';
+import 'package:familyapp/user_bloc/user_logic_bloc.dart';
+import 'package:familyapp/utils.dart';
+import 'package:familyapp/widgets/button_widget.dart';
+import 'package:familyapp/widgets/custom_date_picker.dart';
+import 'package:familyapp/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../home/home_screen.dart';
 import 'bloc/dashboard_bloc.dart';
@@ -9,13 +26,9 @@ class Dashboard extends StatelessWidget {
   Dashboard({Key? key}) : super(key: key);
   List<Widget> widgetsBody = [
     HomePage(),
-    Container(
-      color: Colors.green,
-    ),
-    Container(color: Colors.amber),
-    Container(
-      color: Colors.blue,
-    ),
+    KidsScreen(),
+    CalendarScreen(),
+    MyProfileScreen(),
   ];
 
   List<String> titles = [
@@ -27,18 +40,43 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DashboardBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => DashboardBloc(),
+        ),
+        BlocProvider(
+          create: (context) => HomeBloc()
+            ..getData(context.read<FamilyBloc>().state.family,
+                context.read<UserLogicBloc>().state.user.id),
+        ),
+        BlocProvider(
+          create: (context) => KidsCubit()..init(),
+        ),
+        BlocProvider(
+          create: (context) => MyProfileCubit()..init(),
+        ),
+        BlocProvider(
+          create: (context) => CalendarCubit()..init(),
+        ),
+      ],
       child: BlocBuilder<DashboardBloc, DashboardState>(
         builder: (context, state) {
           return Scaffold(
+            resizeToAvoidBottomInset: true,
             floatingActionButton: state.index % 2 == 0
                 ? FloatingActionButton(
                     child: Text(
                       "+",
                       style: TextStyle(fontSize: 24),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      if (state.index == 0) {
+                        Navigator.of(context).pushNamed(addChildScreen);
+                      } else if (state.index == 2) {
+                        createEvent(context);
+                      }
+                    },
                     backgroundColor: primaryColor,
                   )
                 : null,
@@ -122,5 +160,116 @@ class Dashboard extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void createEvent(BuildContext contextGeneral) {
+    showModalBottomSheet(
+        context: contextGeneral,
+        isScrollControlled: true,
+        builder: (bottomContext) {
+          return BlocProvider(
+            create: (context) => AddEventCubit(),
+            child: BlocBuilder<AddEventCubit, AddEventState>(
+              builder: (context, state) {
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFieldlWithBorderWidget(
+                          border: const BorderSide(color: primaryColor),
+                          style: const TextStyle(
+                            color: primaryColor,
+                            fontFamily: 'OpenSansSemiBold',
+                            fontSize: 12,
+                          ),
+                          hintText: 'something',
+                          onChange: (data) {
+                            context.read<AddEventCubit>().changeTitle(data);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFieldlWithBorderWidget(
+                          border: const BorderSide(color: primaryColor),
+                          style: const TextStyle(
+                            color: primaryColor,
+                            fontFamily: 'OpenSansSemiBold',
+                            fontSize: 12,
+                          ),
+                          hintText: 'description',
+                          onChange: (data) {
+                            context
+                                .read<AddEventCubit>()
+                                .changeDescription(data);
+                          },
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: TextFieldlWithBorderWidget(
+                          border: const BorderSide(color: primaryColor),
+                          style: const TextStyle(
+                            color: primaryColor,
+                            fontFamily: 'OpenSansSemiBold',
+                            fontSize: 12,
+                          ),
+                          hintText: 'palce',
+                          onChange: (data) {
+                            context.read<AddEventCubit>().changePlace(data);
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      CustomDatePicker(
+                        max: DateTime(2050),
+                        text:
+                            !isSameDay(state.time, initTime) ? state.time : null,
+                        hint: 'Wtesdas',
+                        onConfirm: (date) {
+                          context.read<AddEventCubit>().changeDate(date);
+                        },
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ButtonWidget(
+                        text: 'asda',
+                        onPressed: () {
+                          contextGeneral.read<CalendarCubit>().addEvent(EventModel(
+                              title: state.title,
+                              place: state.palce,
+                              time: state.time,
+                              description: state.description,
+                              participants: []));
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                      ButtonWidget(
+                        text: 'asfnbnasda',
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        isSecondary: true,
+                        color: secondaryColor,
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          );
+        });
   }
 }

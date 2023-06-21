@@ -10,6 +10,7 @@ class CustomDatePicker extends StatelessWidget {
   String hint;
   bool isRequired;
   String? error;
+  DateTime? max;
   Function(DateTime) onConfirm;
 
   CustomDatePicker({
@@ -17,6 +18,7 @@ class CustomDatePicker extends StatelessWidget {
     required this.hint,
     required this.onConfirm,
     this.text,
+    this.max,
     this.isRequired = false,
     this.error,
   }) : super(key: key);
@@ -28,7 +30,7 @@ class CustomDatePicker extends StatelessWidget {
         DatePicker.showDatePicker(context,
             showTitleActions: true,
             minTime: DateTime(1900, 3, 5),
-            maxTime: DateTime.now(),
+            maxTime: max?? DateTime.now(),
             onChanged: (date) {
               print('change $date');
             },

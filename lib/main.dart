@@ -1,9 +1,12 @@
 import 'package:familyapp/family_bloc/family_bloc.dart';
 import 'package:familyapp/firebase_options.dart';
 import 'package:familyapp/route_name.dart';
+import 'package:familyapp/screens/add_child/add_child.dart';
+import 'package:familyapp/screens/child_profile/child_profile_screen.dart';
 import 'package:familyapp/screens/dashboard/dashboard.dart';
 import 'package:familyapp/screens/login_screen/login_screen.dart';
 import 'package:familyapp/screens/login_with_code_screen/login_with_code_screen.dart';
+import 'package:familyapp/screens/partener_profile/partener_profile_screen.dart';
 import 'package:familyapp/screens/register_profile_screen/register_profile_screen.dart';
 import 'package:familyapp/screens/splash_screen/splash_screen.dart';
 import 'package:familyapp/screens/update_profile_screen/update_profile_screen.dart';
@@ -43,6 +46,9 @@ class MyApp extends StatelessWidget {
           registerProfileScreen: (context) => const RegisterProfileScreen(),
           dashboardScreen: (context) => Dashboard(),
           updateProfileScreen: (context) => const UpdateProfileScreen(),
+          partenerProfileScreen: (context) => const PartenerProfile(),
+          childProfileScreen: (context) => const ChildProfile(),
+          addChildScreen: (context) => const AddChildScreen(),
         },
       ),
     );

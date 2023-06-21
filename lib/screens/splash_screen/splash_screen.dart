@@ -16,7 +16,6 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if(state.states == UserStates.logged) {
             context.read<FamilyBloc>().add(GetFamilyEvent(state.user.id));
-            Navigator.of(context).pushNamed(dashboardScreen);
           }
         },
 ),

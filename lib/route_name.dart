@@ -6,3 +6,6 @@ const String registerFamilyScreen = "/registerFamily";
 const String registerProfileScreen = "/registerProfile";
 const String dashboardScreen = "/dashboard";
 const String updateProfileScreen = "/updateProfile";
+const String partenerProfileScreen = "/partenerProfile";
+const String childProfileScreen ="/childProfile";
+const String addChildScreen = "/addChildScreen";
