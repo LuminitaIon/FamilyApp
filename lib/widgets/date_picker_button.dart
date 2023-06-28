@@ -5,13 +5,14 @@ import '../colors.dart';
 class DatePickerButton extends StatelessWidget {
   final String text;
   final Color? color;
+  final bool withPadding;
 
-  const DatePickerButton({Key? key, required this.text, this.color}) : super(key: key);
+  const DatePickerButton({Key? key, required this.text, this.color, this.withPadding = true}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: 16.0, right: 16.0),
+      padding:   EdgeInsets.only(left: withPadding ? 16.0 : 0.0, right: withPadding ? 16.0: 0.0),
       child: Container(
         decoration: BoxDecoration(
             border: Border.all(color: color ?? primaryColor),

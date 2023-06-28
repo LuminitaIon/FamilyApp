@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
+import 'package:familyapp/models/kids_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -18,6 +19,13 @@ class FamilyBloc extends Bloc<FamilyEvent, FamilyState> {
     });
     on<GetFamilyFirebaseEvent>((event, emit) {
       emit(state.copyWith(family: event.family));
+    });
+    on<AddChild>((event, emit) async{
+      final newFamily = state.family.copyWith(children: [...state.family.children, event.kid]);
+      await FirebaseFirestore.instance
+          .collection('family')
+          .doc(state.family.id).update(newFamily.toJson());
+      emit(state.copyWith(family: newFamily));
     });
     on<UpdateFamilyEvent>((event, emit) async {
       await FirebaseFirestore.instance

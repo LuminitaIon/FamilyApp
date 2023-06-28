@@ -16,7 +16,7 @@ class TextFieldWidget extends StatelessWidget {
       required this.hintText,
       required this.onChange,
       this.error,
-        this.border,
+      this.border,
       this.isPassword = false,
       this.style})
       : super(key: key);
@@ -32,14 +32,19 @@ class TextFieldWidget extends StatelessWidget {
         errorStyle: const TextStyle(
           fontFamily: 'OpenSansSemiBold',
         ),
-        disabledBorder: border != null ? UnderlineInputBorder(borderSide: border!): UnderlineInputBorder(),
-        enabledBorder: border != null ? UnderlineInputBorder(borderSide: border!): UnderlineInputBorder(),
+        disabledBorder: border != null
+            ? UnderlineInputBorder(borderSide: border!)
+            : UnderlineInputBorder(),
+        enabledBorder: border != null
+            ? UnderlineInputBorder(borderSide: border!)
+            : UnderlineInputBorder(),
         hintText: hintText,
-        hintStyle: style ?? const TextStyle(
-          color: hintTextColor,
-          fontFamily: 'OpenSansSemiBold',
-          fontSize: 20,
-        ),
+        hintStyle: style ??
+            const TextStyle(
+              color: hintTextColor,
+              fontFamily: 'OpenSansSemiBold',
+              fontSize: 20,
+            ),
       ),
     );
   }
@@ -53,15 +58,17 @@ class TextFieldlWithBorderWidget extends StatelessWidget {
   final Function(String) onChange;
   final TextStyle? style;
   final BorderSide? border;
+  final TextEditingController? controller;
 
   const TextFieldlWithBorderWidget(
       {Key? key,
-        required this.hintText,
-        required this.onChange,
-        this.error,
-        this.border,
-        this.isPassword = false,
-        this.style})
+      required this.hintText,
+      required this.onChange,
+      this.error,
+      this.border,
+      this.controller,
+      this.isPassword = false,
+      this.style})
       : super(key: key);
 
   @override
@@ -70,20 +77,26 @@ class TextFieldlWithBorderWidget extends StatelessWidget {
       scrollPadding: const EdgeInsets.only(bottom: 40),
       onChanged: (data) => onChange(data),
       obscureText: isPassword,
+      controller: controller,
       decoration: InputDecoration(
         errorText: error,
         errorStyle: const TextStyle(
           fontFamily: 'OpenSansSemiBold',
         ),
-        disabledBorder: border != null ? OutlineInputBorder(borderSide: border!): OutlineInputBorder(),
-        enabledBorder: border != null ? OutlineInputBorder(borderSide: border!): OutlineInputBorder(),
+        disabledBorder: border != null
+            ? OutlineInputBorder(borderSide: border!)
+            : OutlineInputBorder(),
+        enabledBorder: border != null
+            ? OutlineInputBorder(borderSide: border!)
+            : OutlineInputBorder(),
         hintText: hintText,
-        contentPadding: EdgeInsets.symmetric(vertical: 8,horizontal: 8),
-        hintStyle: style ?? const TextStyle(
-          color: hintTextColor,
-          fontFamily: 'OpenSansSemiBold',
-          fontSize: 20,
-        ),
+        contentPadding: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        hintStyle: style ??
+            const TextStyle(
+              color: hintTextColor,
+              fontFamily: 'OpenSansSemiBold',
+              fontSize: 20,
+            ),
       ),
     );
   }

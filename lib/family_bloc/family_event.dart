@@ -32,3 +32,8 @@ class GetFamilyEvent extends FamilyEvent {
 
   GetFamilyEvent(this.userId);
 }
+class AddChild extends FamilyEvent {
+  KidsModel kid;
+
+  AddChild(this.kid);
+}

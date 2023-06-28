@@ -15,13 +15,13 @@ class MyProfileCubit extends Cubit<MyProfileState> {
             place: "Gradinita numarul 5",
             time: DateTime(2023, 6, 1, 10),
             description: "",
-            participants: ["Lumi","Dashy"]),
+           ),
          EventModel(
           title: "Scoala careu",
           place: "Scoala centrala",
           time: DateTime(2023, 6, 7, 10),
           description: "",
-          participants: ["Lumi"]),
+         ),
       ];
 
     emit(state.copyWith(state: MyProfileScreenState.loaded, result: result));

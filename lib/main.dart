@@ -1,8 +1,11 @@
+import 'package:familyapp/event_bloc/event_cubit.dart';
 import 'package:familyapp/family_bloc/family_bloc.dart';
 import 'package:familyapp/firebase_options.dart';
 import 'package:familyapp/route_name.dart';
 import 'package:familyapp/screens/add_child/add_child.dart';
 import 'package:familyapp/screens/child_profile/child_profile_screen.dart';
+import 'package:familyapp/screens/collaborate_with_partener/collaborate_with_partener_screen.dart';
+import 'package:familyapp/screens/collaborate_with_partener/entering_name_screen.dart';
 import 'package:familyapp/screens/dashboard/dashboard.dart';
 import 'package:familyapp/screens/login_screen/login_screen.dart';
 import 'package:familyapp/screens/login_with_code_screen/login_with_code_screen.dart';
@@ -35,6 +38,10 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => UserLogicBloc()),
         BlocProvider(create: (context) => FamilyBloc()),
+        BlocProvider(
+
+          create: (context) => EventCubit(),
+        ),
       ],
       child: MaterialApp(
         routes: {
@@ -44,11 +51,14 @@ class MyApp extends StatelessWidget {
           loginWithCodeScreen: (context) => LoginWithCodeScreen(),
           registerFamilyScreen: (context) => RegisterFamilyScreen(),
           registerProfileScreen: (context) => const RegisterProfileScreen(),
-          dashboardScreen: (context) => Dashboard(),
+          dashboardScreen: (context) =>
+              BlocBuilder<EventCubit,EventState>(
+                builder: (context, state) {
+                  return Dashboard();
+                },
+              ),
           updateProfileScreen: (context) => const UpdateProfileScreen(),
-          partenerProfileScreen: (context) => const PartenerProfile(),
-          childProfileScreen: (context) => const ChildProfile(),
-          addChildScreen: (context) => const AddChildScreen(),
+
         },
       ),
     );

@@ -6,10 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EventCard extends StatelessWidget {
   final EventModel model;
-  final boolHasParticipans;
 
   const EventCard(
-      {Key? key, required this.model, this.boolHasParticipans = false})
+      {Key? key, required this.model,})
       : super(key: key);
 
   @override
@@ -54,22 +53,6 @@ class EventCard extends StatelessWidget {
                   fontSize: 14,
                 ),
               ),
-              if (boolHasParticipans)
-                Column(
-                  children: [
-                    SizedBox(
-                      height: 4,
-                    ),
-                    Text(
-                      "Participans: ${getParticipants(context)}",
-                      style: TextStyle(
-                        fontFamily: 'OpenSansBold',
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14,
-                      ),
-                    ),
-                  ],
-                ),
             ],
           ),
         ),
@@ -77,17 +60,4 @@ class EventCard extends StatelessWidget {
     );
   }
 
-  String getParticipants(BuildContext context) {
-   final parentName = context.read<UserLogicBloc>().state.user.firstName;
-   if(model.participants.contains(parentName)){
-     final part =model.participants.toList();
-
-     part.remove(parentName);
-     if(part.isEmpty){
-       return "Eu";
-     }
-     return "${part.join(", ")} si eu";
-   }
-   return model.participants.join(", ");
-  }
 }

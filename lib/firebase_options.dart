@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAON46-tWaVcWHzRbaRDvclJ4n1Og5kGiw',
     appId: '1:738134268521:android:42488fa2c51a65a9d5a0f8',
+    databaseURL: "https://familyapp-6e734-default-rtdb.europe-west1.firebasedatabase.app",
     messagingSenderId: '738134268521',
     projectId: 'familyapp-6e734',
     storageBucket: 'familyapp-6e734.appspot.com',
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     apiKey: 'AIzaSyCqIdiurD7HyIfr8g84Ky2j7YKU99ynYic',
     appId: '1:738134268521:ios:96df76ce7aa0d578d5a0f8',
     messagingSenderId: '738134268521',
+    databaseURL: "https://familyapp-6e734-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: 'familyapp-6e734',
     storageBucket: 'familyapp-6e734.appspot.com',
     iosClientId: '738134268521-urrrc7mpim34o12e8hnqr8urdl54lvvf.apps.googleusercontent.com',

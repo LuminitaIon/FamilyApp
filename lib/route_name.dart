@@ -9,3 +9,5 @@ const String updateProfileScreen = "/updateProfile";
 const String partenerProfileScreen = "/partenerProfile";
 const String childProfileScreen ="/childProfile";
 const String addChildScreen = "/addChildScreen";
+const String collaborateWithPartenerScreen = '/collaborateWithPartenerScreen';
+const String enterNameScreen = '/enterNameScreen';

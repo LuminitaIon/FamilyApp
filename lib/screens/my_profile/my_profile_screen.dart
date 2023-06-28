@@ -1,3 +1,4 @@
+import 'package:familyapp/event_bloc/event_cubit.dart';
 import 'package:familyapp/screens/my_profile/my_profile_cubit.dart';
 import 'package:familyapp/user_bloc/user_logic_bloc.dart';
 import 'package:familyapp/widgets/events_card.dart';
@@ -12,7 +13,9 @@ class MyProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MyProfileCubit, MyProfileState>(
       builder: (context, state) {
-        return BlocBuilder<UserLogicBloc, UserLogicState>(
+        return BlocBuilder<EventCubit, EventState>(
+  builder: (contextEvent, stateEvent) {
+    return BlocBuilder<UserLogicBloc, UserLogicState>(
           builder: (contextUser, userState) {
             return Padding(
               padding: const EdgeInsets.all(16.0),
@@ -53,10 +56,12 @@ class MyProfileScreen extends StatelessWidget {
                     fontSize: 20,
                   ),
                 ),
-              ] + state.result.map((e) => EventCard(model :e)).toList()),
+              ] + stateEvent.eventsDatabase.parentsEvents.map((e) => EventCard(model :e)).toList()),
             );
           },
         );
+  },
+);
       },
     );
   }

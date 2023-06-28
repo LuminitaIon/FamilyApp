@@ -1,7 +1,10 @@
 import 'package:familyapp/colors.dart';
+import 'package:familyapp/event_bloc/event_cubit.dart';
 import 'package:familyapp/family_bloc/family_bloc.dart';
 import 'package:familyapp/models/event_model.dart';
+import 'package:familyapp/models/events_database.dart';
 import 'package:familyapp/route_name.dart';
+import 'package:familyapp/screens/add_child/add_child.dart';
 import 'package:familyapp/screens/calendar/calendar_cubit.dart';
 import 'package:familyapp/screens/calendar/calendar_screen.dart';
 import 'package:familyapp/screens/dashboard/bloc/add_event_cubit.dart';
@@ -51,17 +54,16 @@ class Dashboard extends StatelessWidget {
                 context.read<UserLogicBloc>().state.user.id),
         ),
         BlocProvider(
-          create: (context) => KidsCubit()..init(),
-        ),
-        BlocProvider(
+          lazy: false,
+
           create: (context) => MyProfileCubit()..init(),
         ),
-        BlocProvider(
-          create: (context) => CalendarCubit()..init(),
-        ),
       ],
-      child: BlocBuilder<DashboardBloc, DashboardState>(
+      child: BlocBuilder<FamilyBloc, FamilyState>(
+  builder: (contextFamily, stateFamily) {
+    return BlocBuilder<DashboardBloc, DashboardState>(
         builder: (context, state) {
+          context.read<EventCubit>().init(context.read<FamilyBloc>().state.family.id);
           return Scaffold(
             resizeToAvoidBottomInset: true,
             floatingActionButton: state.index % 2 == 0
@@ -72,7 +74,12 @@ class Dashboard extends StatelessWidget {
                     ),
                     onPressed: () {
                       if (state.index == 0) {
-                        Navigator.of(context).pushNamed(addChildScreen);
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (buildContext) => AddChildScreen(
+
+                                )));
                       } else if (state.index == 2) {
                         createEvent(context);
                       }
@@ -158,7 +165,9 @@ class Dashboard extends StatelessWidget {
             ),
           );
         },
-      ),
+      );
+  },
+),
     );
   }
 
@@ -244,12 +253,12 @@ class Dashboard extends StatelessWidget {
                       ButtonWidget(
                         text: 'asda',
                         onPressed: () {
-                          contextGeneral.read<CalendarCubit>().addEvent(EventModel(
+                          contextGeneral.read<EventCubit>().addEvent(EventModel(
                               title: state.title,
                               place: state.palce,
                               time: state.time,
                               description: state.description,
-                              participants: []));
+                             ));
                           Navigator.of(context).pop();
                         },
                       ),
