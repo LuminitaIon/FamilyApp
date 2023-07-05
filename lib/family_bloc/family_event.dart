@@ -37,3 +37,4 @@ class AddChild extends FamilyEvent {
 
   AddChild(this.kid);
 }
+ class ReinitializeFamily extends FamilyEvent {}

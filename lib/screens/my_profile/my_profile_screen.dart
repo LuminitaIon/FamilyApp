@@ -14,54 +14,65 @@ class MyProfileScreen extends StatelessWidget {
     return BlocBuilder<MyProfileCubit, MyProfileState>(
       builder: (context, state) {
         return BlocBuilder<EventCubit, EventState>(
-  builder: (contextEvent, stateEvent) {
-    return BlocBuilder<UserLogicBloc, UserLogicState>(
-          builder: (contextUser, userState) {
-            return Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: ListView(children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    CircleAvatar(
-                      foregroundImage: userState.user.imagePath != null
-                          ? Image.network(userState.user?.imagePath ?? '')
-                              .image
-                          : Image.asset("assets/avatar_test.jpg").image,
-                      radius: 75,
-                    ),
-                    SizedBox(width: 16,),
-                    Expanded(
-                      child: Text(
-                       "Ziua mea de nastere este\n${DateFormat("dd-MM-yyyy").format(userState.user.birthDate)}",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontFamily: 'OpenSansBold',
-                          fontWeight: FontWeight.normal,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 16,),
-                Text(
-                  "Evenimente",
-                  textAlign: TextAlign.start,
-                  style: TextStyle(
-                    fontFamily: 'OpenSansBold',
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ] + stateEvent.eventsDatabase.parentsEvents.map((e) => EventCard(model :e)).toList()),
+          builder: (contextEvent, stateEvent) {
+            return BlocBuilder<UserLogicBloc, UserLogicState>(
+              builder: (contextUser, userState) {
+                return Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView(
+                      children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                CircleAvatar(
+                                  foregroundImage: userState.user.imagePath !=
+                                          null
+                                      ? Image.network(
+                                              userState.user?.imagePath ?? '')
+                                          .image
+                                      : Image.asset("assets/avatar_test.jpg")
+                                          .image,
+                                  radius: 75,
+                                ),
+                                SizedBox(
+                                  width: 16,
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    "Ziua mea de nastere este\n${DateFormat("dd-MM-yyyy").format(userState.user.birthDate)}",
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontFamily: 'OpenSansBold',
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            Text(
+                              "Evenimente",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                fontFamily: 'OpenSansBold',
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20,
+                              ),
+                            ),
+                          ] +
+                          stateEvent.eventsDatabase.parentsEvents
+                              .map((e) => EventCard(model: e))
+                              .toList()),
+                );
+              },
             );
           },
         );
-  },
-);
       },
     );
   }

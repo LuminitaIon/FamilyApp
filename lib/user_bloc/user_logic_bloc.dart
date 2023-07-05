@@ -47,6 +47,11 @@ class UserLogicBloc extends Bloc<UserLogicEvent, UserLogicState> {
         //
       }
     });
+
+    on<LogoutEvent>((event, emit) async {
+      await FirebaseAuth.instance.signOut();
+      emit(UserLogicState());
+    });
   }
 
   register(String email, String password, String familyName) async {

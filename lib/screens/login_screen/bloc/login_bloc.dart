@@ -28,5 +28,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         emit(state.copyWith(state: LoginStates.error));
       }
     });
+    on<ForgotPassword>((event, emit) async{
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: state.email);
+
+    });
   }
 }

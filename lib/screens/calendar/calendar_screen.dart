@@ -90,7 +90,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
         context.read<CalendarCubit>().getEventsForDay(state.selectedDay);
     if (events == null || events.isEmpty) {
       return Center(
-        child: Text('Nici un eveniment de prezentat'),
+        child: Text('Niciun eveniment de prezentat'),
       );
     }
 

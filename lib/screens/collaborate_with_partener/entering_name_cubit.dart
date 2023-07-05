@@ -11,26 +11,28 @@ class EnteringNameCubit extends Cubit<EnteringNameState> {
 
   init(FamilyModel family, String currentId) async {
     emit(state.copyWith(state: EnteringNameScreenState.loading));
-    final databaseReference = FirebaseDatabase.instance.ref().child(family.id ?? '');
-    final rez =  await databaseReference.get();
-    if(rez.exists){
-      debugPrint("${(rez.value as Map).keys.first}");
-      if( [family.idParent2 ??"",family.idParent1 ??"" ].contains((rez.value as Map).keys.first)){
-        await databaseReference.update({'${currentId}': true});
-        emit(state.copyWith(state: EnteringNameScreenState.loaded));
-      }
-    }else {
-      await databaseReference.set({'$currentId': true});
-      String otherPerent = family.idParent1 ?? '';
-      if (otherPerent == currentId) {
-        otherPerent = family.idParent2 ?? '';
-      }
-      databaseReference.onChildAdded.listen((event) async{
-        if( otherPerent == event.snapshot.key && state.state != EnteringNameScreenState.loaded ){
-          emit(state.copyWith(state: EnteringNameScreenState.loaded));
-        }
-      });
-    }
+    await Future.delayed(const Duration(seconds: 2));
+    emit(state.copyWith(state: EnteringNameScreenState.loaded));
+    // final databaseReference = FirebaseDatabase.instance.ref().child(family.id ?? '');
+    // final rez =  await databaseReference.get();
+    // if(rez.exists){
+    //   debugPrint("${(rez.value as Map).keys.first}");
+    //   if( [family.idParent2 ??"",family.idParent1 ??"" ].contains((rez.value as Map).keys.first)){
+    //     await databaseReference.update({'${currentId}': true});
+    //     emit(state.copyWith(state: EnteringNameScreenState.loaded));
+    //   }
+    // }else {
+    //   await databaseReference.set({'$currentId': true});
+    //   String otherPerent = family.idParent1 ?? '';
+    //   if (otherPerent == currentId) {
+    //     otherPerent = family.idParent2 ?? '';
+    //   }
+    //   databaseReference.onChildAdded.listen((event) async{
+    //     if( otherPerent == event.snapshot.key && state.state != EnteringNameScreenState.loaded ){
+    //       emit(state.copyWith(state: EnteringNameScreenState.loaded));
+    //     }
+    //   });
+    // }
   }
 
   addName(String name) {

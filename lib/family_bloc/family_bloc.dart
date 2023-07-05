@@ -56,6 +56,7 @@ class FamilyBloc extends Bloc<FamilyEvent, FamilyState> {
         debugPrint(e.toString());
       }
     });
+    on<ReinitializeFamily>((event, emit) => FamilyState());
   }
 
   register(CreateFamilyEvent event) async {

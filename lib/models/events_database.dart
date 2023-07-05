@@ -20,9 +20,9 @@ class EventsDatabase {
       EventsDatabase(parentsEvents: (json["parents_event"] as List?)
           ?.map((e) => EventModel.fromJson(e))
           .toList() ?? [],
-          childrenEvents:getMapFrom(json["children_event"]) );
+          childrenEvents:getMapFrom(json["children_event"]) ?? {});
 
-  static Map<String, List<EventModel>> getMapFrom(Map<String,dynamic> json){
+  static Map<String, List<EventModel>> getMapFrom(Map<String,dynamic>? json){
     Map<String, List<EventModel>> maps ={};
     json?.forEach((key, value) {
       maps[key] = (value as List?)?.map((e) => EventModel.fromJson(e)).toList() ?? [];

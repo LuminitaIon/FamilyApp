@@ -55,119 +55,140 @@ class Dashboard extends StatelessWidget {
         ),
         BlocProvider(
           lazy: false,
-
           create: (context) => MyProfileCubit()..init(),
         ),
       ],
       child: BlocBuilder<FamilyBloc, FamilyState>(
-  builder: (contextFamily, stateFamily) {
-    return BlocBuilder<DashboardBloc, DashboardState>(
-        builder: (context, state) {
-          context.read<EventCubit>().init(context.read<FamilyBloc>().state.family.id);
-          return Scaffold(
-            resizeToAvoidBottomInset: true,
-            floatingActionButton: state.index % 2 == 0
-                ? FloatingActionButton(
-                    child: Text(
-                      "+",
-                      style: TextStyle(fontSize: 24),
+        builder: (contextFamily, stateFamily) {
+          return BlocBuilder<DashboardBloc, DashboardState>(
+            builder: (context, state) {
+              context
+                  .read<EventCubit>()
+                  .init(context.read<FamilyBloc>().state.family.id);
+              return Scaffold(
+                resizeToAvoidBottomInset: true,
+                floatingActionButton: state.index % 2 == 0
+                    ? FloatingActionButton(
+                        child: Text(
+                          "+",
+                          style: TextStyle(fontSize: 24),
+                        ),
+                        onPressed: () {
+                          if (state.index == 0) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (buildContext) =>
+                                        AddChildScreen()));
+                          } else if (state.index == 2) {
+                            createEvent(context);
+                          }
+                        },
+                        backgroundColor: primaryColor,
+                      )
+                    : null,
+                appBar: AppBar(
+                    leading: Container(),
+                    title: Text(
+                      titles[state.index],
+                      style: TextStyle(color: primaryColor),
                     ),
-                    onPressed: () {
-                      if (state.index == 0) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (buildContext) => AddChildScreen(
-
-                                )));
-                      } else if (state.index == 2) {
-                        createEvent(context);
-                      }
-                    },
-                    backgroundColor: primaryColor,
-                  )
-                : null,
-            appBar: AppBar(
-              leading: Container(),
-              title: Text(
-                titles[state.index],
-                style: TextStyle(color: primaryColor),
-              ),
-              backgroundColor: secondaryColor,
-              centerTitle: true,
-            ),
-            body: widgetsBody[state.index],
-            bottomNavigationBar: BottomNavigationBar(
-              iconSize: 36.0,
-              backgroundColor: secondaryColor,
-              items: const [
-                BottomNavigationBarItem(
-                  label: "",
-                  icon: Icon(
-                    Icons.home,
-                    color: primaryColor,
-                  ),
-                  activeIcon: Icon(
-                    Icons.home,
-                    color: primaryColor,
-                    shadows: [
-                      Shadow(color: gray, blurRadius: 10.0),
-                    ],
-                  ),
+                    backgroundColor: secondaryColor,
+                    centerTitle: true,
+                    actions: state.index == 3
+                        ? [
+                            Padding(
+                              padding: const EdgeInsets.only(right: 32.0),
+                              child: GestureDetector(
+                                child: Icon(
+                                  Icons.logout,
+                                  color: primaryColor,
+                                ),
+                                onTap: () {
+                                  print("ceva");
+                                  context
+                                      .read<UserLogicBloc>()
+                                      .add(LogoutEvent());
+                                  context.read<FamilyBloc>().add(ReinitializeFamily());
+                                  Navigator.popUntil(context, (route) => route.settings.name == splashScreen);
+                                  Navigator.pushNamed(context, welcomeScreen);
+                                },
+                              ),
+                            )
+                          ]
+                        : null),
+                body: widgetsBody[state.index],
+                bottomNavigationBar: BottomNavigationBar(
+                  iconSize: 36.0,
+                  backgroundColor: secondaryColor,
+                  items: const [
+                    BottomNavigationBarItem(
+                      label: "",
+                      icon: Icon(
+                        Icons.home,
+                        color: primaryColor,
+                      ),
+                      activeIcon: Icon(
+                        Icons.home,
+                        color: primaryColor,
+                        shadows: [
+                          Shadow(color: gray, blurRadius: 10.0),
+                        ],
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      label: "",
+                      icon: Icon(
+                        Icons.people,
+                        color: primaryColor,
+                      ),
+                      activeIcon: Icon(
+                        Icons.people,
+                        color: primaryColor,
+                        shadows: [
+                          Shadow(color: gray, blurRadius: 10.0),
+                        ],
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      label: "",
+                      icon: Icon(
+                        Icons.calendar_month,
+                        color: primaryColor,
+                      ),
+                      activeIcon: Icon(
+                        Icons.calendar_month,
+                        color: primaryColor,
+                        shadows: [
+                          Shadow(color: gray, blurRadius: 10.0),
+                        ],
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      label: "",
+                      icon: Icon(
+                        Icons.person,
+                        color: primaryColor,
+                      ),
+                      activeIcon: Icon(
+                        Icons.person,
+                        color: primaryColor,
+                        shadows: [
+                          Shadow(color: gray, blurRadius: 50.0),
+                        ],
+                      ),
+                    ),
+                  ],
+                  currentIndex: state.index,
+                  onTap: (index) {
+                    context.read<DashboardBloc>().add(DashboardEvent(index));
+                  },
                 ),
-                BottomNavigationBarItem(
-                  label: "",
-                  icon: Icon(
-                    Icons.people,
-                    color: primaryColor,
-                  ),
-                  activeIcon: Icon(
-                    Icons.people,
-                    color: primaryColor,
-                    shadows: [
-                      Shadow(color: gray, blurRadius: 10.0),
-                    ],
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: "",
-                  icon: Icon(
-                    Icons.calendar_month,
-                    color: primaryColor,
-                  ),
-                  activeIcon: Icon(
-                    Icons.calendar_month,
-                    color: primaryColor,
-                    shadows: [
-                      Shadow(color: gray, blurRadius: 10.0),
-                    ],
-                  ),
-                ),
-                BottomNavigationBarItem(
-                  label: "",
-                  icon: Icon(
-                    Icons.person,
-                    color: primaryColor,
-                  ),
-                  activeIcon: Icon(
-                    Icons.person,
-                    color: primaryColor,
-                    shadows: [
-                      Shadow(color: gray, blurRadius: 50.0),
-                    ],
-                  ),
-                ),
-              ],
-              currentIndex: state.index,
-              onTap: (index) {
-                context.read<DashboardBloc>().add(DashboardEvent(index));
-              },
-            ),
+              );
+            },
           );
         },
-      );
-  },
-),
+      ),
     );
   }
 
@@ -194,7 +215,7 @@ class Dashboard extends StatelessWidget {
                             fontFamily: 'OpenSansSemiBold',
                             fontSize: 12,
                           ),
-                          hintText: 'something',
+                          hintText: 'Title',
                           onChange: (data) {
                             context.read<AddEventCubit>().changeTitle(data);
                           },
@@ -212,7 +233,7 @@ class Dashboard extends StatelessWidget {
                             fontFamily: 'OpenSansSemiBold',
                             fontSize: 12,
                           ),
-                          hintText: 'description',
+                          hintText: 'Description',
                           onChange: (data) {
                             context
                                 .read<AddEventCubit>()
@@ -229,7 +250,7 @@ class Dashboard extends StatelessWidget {
                             fontFamily: 'OpenSansSemiBold',
                             fontSize: 12,
                           ),
-                          hintText: 'palce',
+                          hintText: 'Place',
                           onChange: (data) {
                             context.read<AddEventCubit>().changePlace(data);
                           },
@@ -240,9 +261,10 @@ class Dashboard extends StatelessWidget {
                       ),
                       CustomDatePicker(
                         max: DateTime(2050),
-                        text:
-                            !isSameDay(state.time, initTime) ? state.time : null,
-                        hint: 'Wtesdas',
+                        text: !isSameDay(state.time, initTime)
+                            ? state.time
+                            : null,
+                        hint: 'Date',
                         onConfirm: (date) {
                           context.read<AddEventCubit>().changeDate(date);
                         },
@@ -251,14 +273,14 @@ class Dashboard extends StatelessWidget {
                         height: 8,
                       ),
                       ButtonWidget(
-                        text: 'asda',
+                        text: 'Save',
                         onPressed: () {
                           contextGeneral.read<EventCubit>().addEvent(EventModel(
-                              title: state.title,
-                              place: state.palce,
-                              time: state.time,
-                              description: state.description,
-                             ));
+                                title: state.title,
+                                place: state.palce,
+                                time: state.time,
+                                description: state.description,
+                              ));
                           Navigator.of(context).pop();
                         },
                       ),
@@ -266,7 +288,7 @@ class Dashboard extends StatelessWidget {
                         height: 8,
                       ),
                       ButtonWidget(
-                        text: 'asfnbnasda',
+                        text: 'Cancel',
                         onPressed: () {
                           Navigator.of(context).pop();
                         },

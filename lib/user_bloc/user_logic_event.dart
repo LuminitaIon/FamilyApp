@@ -9,7 +9,9 @@ class UserLogicEvent extends Equatable {
 
 class LoginEvent extends UserLogicEvent {}
 
-class LogoutEvent extends UserLogicEvent {}
+class LogoutEvent extends UserLogicEvent {
+
+}
 
 class UpdateEvent extends UserLogicEvent {}
 

@@ -15,3 +15,5 @@ class LoginAddPassword extends LoginEvent {
 }
 
 class LoginToAccount extends LoginEvent {}
+
+class ForgotPassword extends LoginEvent {}

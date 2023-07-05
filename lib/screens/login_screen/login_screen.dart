@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-
 import '../../route_name.dart';
 import '../../widgets/text_field.dart';
 import 'bloc/login_bloc.dart';
@@ -15,7 +14,6 @@ class LoginScreen extends StatelessWidget {
 
   final TextEditingController emailLoginController = TextEditingController();
   final TextEditingController passwordLoginController = TextEditingController();
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +43,10 @@ class LoginScreen extends StatelessWidget {
                     color: primaryColor,
                   )),
             ),
-            const Text('Welcome Back!', textAlign: TextAlign.center,),
+            const Text(
+              'Welcome Back!',
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(width: 20),
           ],
         ),
@@ -57,17 +58,14 @@ class LoginScreen extends StatelessWidget {
             if (state.state == LoginStates.success) {
               Navigator.of(context).pushNamed(dashboardScreen);
             }
-            if(state.state == LoginStates.error) {
-
+            if (state.state == LoginStates.error) {
               Fluttertoast.showToast(
                   msg: "Your credentials are invalid. Please try again",
                   toastLength: Toast.LENGTH_LONG,
                   gravity: ToastGravity.CENTER,
                   backgroundColor: Colors.grey,
-                  fontSize: 16
-              );
+                  fontSize: 16);
             }
-
           },
           child: BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
@@ -107,7 +105,6 @@ class LoginScreen extends StatelessWidget {
                       text: 'LOGIN',
                       onPressed: () {
                         context.read<LoginBloc>().add(LoginToAccount());
-
                       },
                     ),
                   ),
@@ -115,7 +112,17 @@ class LoginScreen extends StatelessWidget {
                     children: [
                       ButtonText(
                         text: 'FORGOT PASSWORD',
-                        onPressed: () {},
+                        onPressed: () {
+                          if (state.email.isNotEmpty) {
+                            context.read<LoginBloc>().add(ForgotPassword());
+                            Fluttertoast.showToast(
+                                msg: "An email for reseting your password was sent to you. Please verify");
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: "You need to introduce your email");
+                          }
+                          ;
+                        },
                       ),
                       const Center(
                         child: Text('OR'),

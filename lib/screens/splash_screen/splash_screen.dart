@@ -45,8 +45,6 @@ class SplashScreen extends StatelessWidget {
             if (state.states == SplashScreenStates.init) {
               context.read<SplashBloc>().add(SplashEvent());
             }
-            if (state.states == SplashScreenStates.loading ||
-                state.states == SplashScreenStates.init) {
               return Container(
                 color: Colors.white,
                 child: Stack(
@@ -61,10 +59,7 @@ class SplashScreen extends StatelessWidget {
                   ],
                 ),
               );
-            }
-            return Container(
-              color: Colors.red,
-            );
+
           },
         ),
 ),
